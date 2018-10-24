@@ -191,7 +191,10 @@ try
     set(get(h.oa,'hYTickLabel'),'FontSize',16)
     set(get(h.oa,'hZTickLabel'),'FontSize',16)
 catch
-    warning('Visualizations in this package are not yet fully supported using R2014B and sooner.')
+    warning('Visualizations in this package are not yet fully supported using R2014B and later. The visualization may differ in appearance than those shown in the manual.')
+    xlabel('time','FontSize',16);
+    ylabel('frequency','FontSize',16);
+    zlabel('real','FontSize',16);
 end
 set(gca,'color',get(gcf,'color'))
 

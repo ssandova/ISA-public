@@ -16,7 +16,7 @@
 %           volume = {66},
 %           year = {2018},
 %           month = {Nov},
-%           pages = {5679-5693} 
+%           pages = {5679-5693}
 %       }
 %
 %*********************************************************************
@@ -47,22 +47,27 @@ B = 25;
 fc = 55;
 m = B*cos(2*pi*fm*t+phiphi);%fm message
 phi = B/fm;%phase offset
-[psi,s,sigma,fi] = amfmmod(a,m,fc,fs,phi); 
+[psi,s,sigma,fi] = amfmmod(a,m,fc,fs,phi);
 fMax = 2.25*fc;
 z = psi;
 
 isa1 = ISA3dPlotPrint(t,s,fi',a',fs,fMax,[1024*4,4]);
+try
+    set(isa1.oa,'XTick',[])
+    set(isa1.oa,'YTick',[fc])
+    set(isa1.oa,'ZTick',[])
+    set(isa1.oa,'XTickLabel',{})
+    set(isa1.oa,'YTickLabel',{'$\omega_0~~~$'})
+    set(isa1.oa,'TickLabelFontSize',20,'TickLabelInterpreter','latex')
+    set(isa1.oa,'Xlabel',{'\it{-time}','\it{time}'},'Ylabel',{'\it{ }','\it{frequency}'},'Zlabel',{'\it{-real}','\it{real}'})
+catch
+    warning('Visualizations in this package are not yet fully supported using R2014B and later. The visualization may differ in appearance than those shown in the manual.')
+    xlabel('time','FontSize',16);
+    ylabel('frequency','FontSize',16);
+    zlabel('real','FontSize',16);
+end
 
-set(isa1.oa,'XTick',[])
-set(isa1.oa,'YTick',[fc])
-set(isa1.oa,'ZTick',[])
-set(isa1.oa,'XTickLabel',{})
-set(isa1.oa,'YTickLabel',{'$\omega_0~~~$'})
-set(isa1.oa,'TickLabelFontSize',20,'TickLabelInterpreter','latex')
-set(isa1.oa,'Xlabel',{'\it{-time}','\it{time}'},'Ylabel',{'\it{ }','\it{frequency}'},'Zlabel',{'\it{-real}','\it{real}'})
-
-
-    set(isa1.Line,'Visible','on');
+set(isa1.Line,'Visible','on');
 
 if (lightingFlag)
     hl = lightangle(5,60)
@@ -98,8 +103,8 @@ m = zeros(size(t));
 for k = -nComp:nComp;
     a = besselj(k,B/fm)*ones(size(t));
     phi = k*phiphi;
-    [psi,s,sigma,fi] = amfmmod(a,m,fc+k*fm,fs,phi); 
-
+    [psi,s,sigma,fi] = amfmmod(a,m,fc+k*fm,fs,phi);
+    
     PSI = [PSI,psi(:)];
     S = [S,s(:)];
     IF = [IF,fi(:)];
@@ -110,14 +115,20 @@ end
 isa2 = ISA3dPlotPrint(t,S,IF,A,fs,fMax,[1024,4]);
 %title(' ','FontSize',18,'Interpreter','latex','string',['$x(t) = \Re\lbrace\sum\limits_{k=-',num2str(nComp),'}^{',num2str(nComp),'}J_k(2\pi B/\omega_m)e^{j[(\omega_c+k\omega_m)t]}\rbrace$']);
 
-set(isa2.oa,'XTick',[])
-set(isa2.oa,'YTick',[fc])
-set(isa2.oa,'ZTick',[])
-set(isa2.oa,'XTickLabel',{})
-set(isa2.oa,'YTickLabel',{'$\omega_0~~~$'})
-set(isa2.oa,'TickLabelFontSize',20,'TickLabelInterpreter','latex')
-set(isa2.oa,'Xlabel',{'\it{-time}','\it{time}'},'Ylabel',{'\it{ }','\it{frequency}'},'Zlabel',{'\it{-real}','\it{real}'})
-
+try
+    set(isa2.oa,'XTick',[])
+    set(isa2.oa,'YTick',[fc])
+    set(isa2.oa,'ZTick',[])
+    set(isa2.oa,'XTickLabel',{})
+    set(isa2.oa,'YTickLabel',{'$\omega_0~~~$'})
+    set(isa2.oa,'TickLabelFontSize',20,'TickLabelInterpreter','latex')
+    set(isa2.oa,'Xlabel',{'\it{-time}','\it{time}'},'Ylabel',{'\it{ }','\it{frequency}'},'Zlabel',{'\it{-real}','\it{real}'})
+catch
+    warning('Visualizations in this package are not yet fully supported using R2014B and later. The visualization may differ in appearance than those shown in the manual.')
+    xlabel('time','FontSize',16);
+    ylabel('frequency','FontSize',16);
+    zlabel('real','FontSize',16);
+end
 set(isa2.Line,'Visible','on');
 
 

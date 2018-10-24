@@ -104,7 +104,10 @@ ORIGIN = [0,0,0];
 try
     oaxes(ORIGIN,'Xlabel',{'\it{-time(sec)}','\it{time(sec)}'},'Ylabel',{'\it{-real}','\it{real}'},'Zlabel',{'\it{-imag}','\it{imag}'});
 catch
-    warning('Visualizations in this package are not yet fully supported using R2014B and sooner.')
+    warning('Visualizations in this package are not yet fully supported using R2014B and later. The visualization may differ in appearance than those shown in the manual.')
+    xlabel('time');
+    ylabel('real');
+    zlabel('imag');
 end
 set(gca,'color',get(gcf,'color'))
 
@@ -142,7 +145,7 @@ set(h.b8,'callback',{@ToggleVis,gcf,h.Fill1})
 
 h.ar = uicontrol('Parent',gcf,'units','normalized','Style', 'slider','BusyAction','cancel','Interruptible','off',...
     'Min',1,'Max',length(t),'SliderStep',[1/length(t),20/length(t)],'Value',floor(length(t)/2),...
-    'Position', [0.125,0.08,0.790,0.01]);
+    'Position', [0.125,0.08-0.02,0.790,0.01]);
 set(h.ar,'Callback', {@AnimateRealImag,t,psi,h});
 
 kk = round(get(h.ar,'Value'));

@@ -2,7 +2,7 @@
 % The Instantaneous Spectrum: Code Examples for Reproducible Research
 %*********************************************************************
 %
-% Description: This script generates Figure 7 (a) in the below reference.     
+% Description: This script generates Figure 7 (a) in the below reference.
 %
 %*********************************************************************
 %
@@ -15,7 +15,7 @@
 %           volume = {66},
 %           year = {2018},
 %           month = {Nov},
-%           pages = {5679-5693} 
+%           pages = {5679-5693}
 %       }
 %
 %*********************************************************************
@@ -25,27 +25,27 @@ clc
 addpath(genpath(fileparts(fileparts(pwd))));
 
 %=================================================================
- 
+
 printFlag = false;
 lightingFlag = false;
 newLight = false;
 
 aaFactor = 2;
- 
- 
+
+
 ORIGIN = [0,0,0];
- 
- 
+
+
 fs = 5000; %sampling freq
 Ts = 1/fs;
 t = 0:Ts:2.25;
-T = length(t); 
- 
+T = length(t);
+
 alpha = 15;
 beta = 5;
- t_0=1;
+t_0=1;
 
- 
+
 S = [];PSI = [];IF = [];A = [];
 for k = 1
     if k==1
@@ -62,25 +62,25 @@ for k = 1
 end
 z = sum(PSI,2);
 x = real(z);
- 
- 
+
+
 fMax = fc*2.5;
 pct = 99.999;
- 
+
 t=t';
- 
-  
+
+
 %OPEN FIGURE
 %set(0,'HideUndocumented','off');
 h.fig = figure('name','AM-FM Model');hold on;
 set(h.fig,'units','normalized', 'Position',  [ 0.05    0.05    1-0.1    0.85],'color',[1,1,1]);
- 
+
 %COLORMAP
 cmap = colormap(pmkmp(256,'CubicYF') );
 caxis([0,max(max(abs(A)))])
 set(gca,'color',[1,1,1])
- 
- 
+
+
 %AXIS AND VIEW
 % fMax = min([1.05*max(max(IF)),fs/2]);
 fMin = 0;
@@ -88,21 +88,33 @@ lims = [0,t(length(t)),fMin,fMax,-0.01  ,max(1.05*max(max(abs(sum(S,2)))),1.05*m
 axis(lims)
 view([-30,35])
 ax = axis;
- 
-close 
- 
-%=======================================================================================
- 
-isa = ISA3dPlotPrint(t,S,IF,A,fs,fMax);
-set(isa.oa,'XTick',[t_0])
-set(isa.oa,'YTick',[fc])
-set(isa.oa,'ZTick',[])
-set(isa.oa,'XTickLabel',{'0'})
-set(isa.oa,'YTickLabel',{'$\omega_0~~$'})
-set(isa.oa,'TickLabelFontSize',20,'TickLabelInterpreter','latex')
 
-isa.oa = oaxes(ORIGIN,'Xlabel',{'\it{-time}','\it{time}'},'Ylabel',{'\it{ }','\it{frequency}'},'Zlabel',{'\it{-real}','\it{real}'});
- 
+close
+
+%=======================================================================================
+
+isa = ISA3dPlotPrint(t,S,IF,A,fs,fMax);
+try
+    set(isa.oa,'XTick',[t_0])
+    set(isa.oa,'YTick',[fc])
+    set(isa.oa,'ZTick',[])
+    set(isa.oa,'XTickLabel',{'0'})
+    set(isa.oa,'YTickLabel',{'$\omega_0~~$'})
+    set(isa.oa,'TickLabelFontSize',20,'TickLabelInterpreter','latex')
+    isa.oa = oaxes(ORIGIN,'Xlabel',{'\it{-time}','\it{time}'},'Ylabel',{'\it{ }','\it{frequency}'},'Zlabel',{'\it{-real}','\it{real}'});
+    
+catch
+    warning('Visualizations in this package are not yet fully supported using R2014B and later. The visualization may differ in appearance than those shown in the manual.')
+    xlabel('time','FontSize',16);
+    ylabel('frequency','FontSize',16);
+    zlabel('real','FontSize',16);
+    set(gca,'XTick',[t_0])
+    set(isa.oa,'YTick',[fc])
+    set(isa.oa,'ZTick',[])
+    set(isa.oa,'XTickLabel',{'0'})
+    set(isa.oa,'YTickLabel',{'$\omega_0~~$'})
+end
+
 if (lightingFlag)
     hl = lightangle(5,60)
     if (newLight)
@@ -112,11 +124,11 @@ if (lightingFlag)
     end
     lighting PHONG; material dull;
 end
- 
+
 view([-30,70])
 set(isa.Line,'Visible','on');
- 
- 
+
+
 if (printFlag)
     fileNameStr = 'HSA3dHD_85';
     oaxes('TickLength',aaFactor*[6,8]);
@@ -126,4 +138,4 @@ if (printFlag)
     pause(1);
     close gcf;
 end
- 
+
