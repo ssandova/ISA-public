@@ -31,7 +31,7 @@ function h = ISA3dPlot(t,PSI,IF,A,fs,fMax,STFTparams)
 %
 %	Name: STFTparams (optional)
 %	Type: vector (1x2)
-%	Description: STFT parameters: [N_FFT,frame_advance]
+%	Description: STFT parameters: [frame_length,frame_advance,N_FFT] (units of samples)
 %
 % Output Arguments:
 %
